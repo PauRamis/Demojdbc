@@ -11,10 +11,15 @@ public class Main {
                 "jdbc:mysql://"+DB_HOST+"/"+DB_DBNAME,DB_USERNAME, DB_PASSWORD
         );
 
-        String sql = "insert into test (text) values ('prova')";
-        Statement statement = con.createStatement();
-        statement.execute(sql);
-        statement.close();
+        String atac = "'";
+        for (int i = 0; i < 100; i++) {
+            String sql = "insert into test (text) values (?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "prova" + i);
+            ps.execute();
+            ps.close();
+        }
+
         con.close();
     }
 }
